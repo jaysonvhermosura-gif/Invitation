@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Can You Be My Date? 💗</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      overflow: hidden;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      font-family: Arial, sans-serif;
+
+      background:
+        radial-gradient(circle at top left, #ffd6e7, transparent 35%),
+        radial-gradient(circle at bottom right, #d9c2ff, transparent 35%),
+        linear-gradient(135deg, #fff0f6, #ffe0ec);
+
+      color: #543044;
+    }
+
+    /* Floating hearts */
+
+    .heart {
+      position: fixed;
+      bottom: -50px;
+      pointer-events: none;
+      z-index: 1;
+
+      animation: floatHeart linear forwards;
+    }
+
+    @keyframes floatHeart {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+
+      10% {
+        opacity: 1;
+      }
+
+      100% {
+        transform: translateY(-110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Main card */
+
+    .card {
+      position: relative;
+      z-index: 5;
+
+      width: min(90%, 520px);
+      padding: 50px 35px;
+
+      text-align: center;
+
+      background: rgba(255, 255, 255, 0.82);
+      backdrop-filter: blur(15px);
+
+      border-radius: 35px;
+
+      box-shadow:
+        0 25px 70px rgba(170, 80, 130, 0.2);
+
+      animation: appear 1s ease;
+    }
+
+    @keyframes appear {
+      from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    /* Heart */
+
+    .main-heart {
+      font-size: 80px;
+      margin-bottom: 20px;
+
+      animation: heartbeat 1.3s infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
+    }
+
+    h1 {
+      color: #e75480;
+      font-size: clamp(2rem, 8vw, 3.2rem);
+      margin-bottom: 15px;
+    }
+
+    .subtitle {
+      color: #765367;
+      font-size: 1.05rem;
+      line-height: 1.7;
+      margin-bottom: 25px;
+    }
+
+    .question {
+      color: #c83f6e;
+      font-size: 1.4rem;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+
+    /* Buttons */
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+
+      min-height: 70px;
+    }
+
+    button {
+      border: none;
+      border-radius: 50px;
+
+      padding: 15px 30px;
+
+      font-size: 1rem;
+      font-weight: bold;
+
+      cursor: pointer;
+
+      transition:
+        transform 0.35s ease,
+        opacity 0.35s ease,
+        padding 0.35s ease,
+        font-size 0.35s ease;
+    }
+
+    /* YES */
+
+    .yes-btn {
+      color: white;
+
+      background:
+        linear-gradient(
+          135deg,
+          #ff5f9e,
+          #e91e63
+        );
+
+      box-shadow:
+        0 8px 25px rgba(233, 30, 99, 0.3);
+
+      z-index: 10;
+    }
+
+    .yes-btn:hover {
+      transform: scale(1.08);
+    }
+
+    /* NO */
+
+    .no-btn {
+      color: #d94f7d;
+      background: white;
+
+      border: 2px solid #ffc1d6;
+
+      transition:
+        transform 0.35s ease,
+        opacity 0.35s ease;
+    }
+
+    /* Result */
+
+    .result {
+      display: none;
+      margin-top: 25px;
+
+      animation: resultAppear 0.6s ease;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    @keyframes resultAppear {
+      from {
+        opacity: 0;
+        transform: scale(0.8);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .result h2 {
+      color: #e75480;
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+    }
+
+    .result p {
+      color: #765367;
+      line-height: 1.7;
+    }
+
+    .date-box {
+      margin-top: 25px;
+      padding: 20px;
+
+      background: #fff3f7;
+      border-radius: 20px;
+
+      color: #70445a;
+    }
+
+    .date-box p {
+      margin: 7px 0;
+    }
+
+    .small-text {
+      margin-top: 30px;
+
+      color: #a2778c;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 500px) {
+
+      .card {
+        padding: 40px 22px;
+      }
+
+      .main-heart {
+        font-size: 65px;
+      }
+
+      .buttons {
+        gap: 10px;
+      }
+
+      button {
+        padding: 13px 22px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+
+    <div class="main-heart" id="mainHeart">
+      💌
+    </div>
+
+    <h1>Hey You! 👀</h1>
+
+    <p class="subtitle">
+      I've been wanting to ask you something...
+    </p>
+
+    <div class="question">
+      Can you be my date? 💗
+    </div>
+
+    <div class="buttons" id="buttons">
+
+      <button
+        class="yes-btn"
+        onclick="sayYes()">
+        YES! 💕
+      </button>
+
+      <button
+        class="no-btn"
+        id="noButton"
+        onclick="shrinkNo()">
+        NO 😭
+      </button>
+
+    </div>
+
+    <!-- YES MESSAGE -->
+
+    <div
+      class="result"
+      id="yesResult">
+
+      <h2>YAY!! 🥹❤️</h2>
+
+      <p>
+        You said YES! 💗
+        <br><br>
+        I guess we have a date! 😭
+      </p>
+
+      <div class="date-box">
+
+        <p>📅 <strong>Date:</strong> You decide!</p>
+
+        <p>🍕 <strong>Plan:</strong> Whatever you want to do!</p>
+
+        <p>📍 <strong>Place:</strong> Anywhere you want to go to!</p>
+
+
+        <p>✨ <strong>Dress code:</strong> Anything, cause any dress suits you!</p>
+
+      </div>
+
+    </div>
+
+    <p class="small-text">
+      Made with a little courage and a lot of ❤️
+    </p>
+
+  </div>
+
+
+  <script>
+
+  let noClicks = 0;
+
+  function shrinkNo() {
+
+    const noButton = document.getElementById("noButton");
+    const yesButton = document.querySelector(".yes-btn");
+
+    noClicks++;
+
+    /* ==========================
+       MAKE NO BUTTON SMALLER
+    ========================== */
+
+    const noScale = Math.max(
+      0.08,
+      1 - (noClicks * 0.14)
+    );
+
+    noButton.style.transform =
+      `scale(${noScale})`;
+
+
+    /* ==========================
+       MAKE YES BUTTON BIGGER
+    ========================== */
+
+    /*
+      The YES button starts at 1x.
+
+      Every NO click:
+      1st click = 1.20x
+      2nd click = 1.40x
+      3rd click = 1.60x
+      4th click = 1.80x
+      etc.
+    */
+
+    const yesScale = 1 + (noClicks * 0.20);
+
+    yesButton.style.transform =
+      `scale(${yesScale})`;
+
+
+    /* ==========================
+       CHANGE NO TEXT
+    ========================== */
+
+    const messages = [
+      "NO 😭",
+      "Are you sure? 🥺",
+      "Really? 😭",
+      "Think again! 👀",
+      "Please? 🥹",
+      "Last chance! 💗",
+      "NOOO 😭",
+      "🥺",
+      "💗"
+    ];
+
+    const messageIndex =
+      Math.min(noClicks, messages.length - 1);
+
+    noButton.textContent =
+      messages[messageIndex];
+
+
+    /* ==========================
+       HIDE NO AFTER A FEW CLICKS
+    ========================== */
+
+    if (noClicks >= 8) {
+
+      noButton.style.opacity = "0";
+      noButton.style.pointerEvents = "none";
+
+    }
+
+
+    /* ==========================
+       CREATE HEARTS
+    ========================== */
+
+    createHearts(4);
+  }
+
+
+  /* ==========================
+     YES BUTTON
+  ========================== */
+
+  function sayYes() {
+
+    const buttons =
+      document.getElementById("buttons");
+
+    const question =
+      document.querySelector(".question");
+
+    const result =
+      document.getElementById("yesResult");
+
+    const heart =
+      document.getElementById("mainHeart");
+
+
+    question.style.display = "none";
+
+    buttons.style.display = "none";
+
+    heart.textContent = "🥰";
+
+    result.classList.add("show");
+
+    createHearts(50);
+  }
+
+
+  /* ==========================
+     FLOATING HEARTS
+  ========================== */
+
+  function createHearts(amount) {
+
+    const heartTypes = [
+      "❤️",
+      "💗",
+      "💕",
+      "💖",
+      "💘",
+      "🌸"
+    ];
+
+    for (let i = 0; i < amount; i++) {
+
+      const heart =
+        document.createElement("div");
+
+      heart.className = "heart";
+
+      heart.textContent =
+        heartTypes[
+          Math.floor(
+            Math.random() * heartTypes.length
+          )
+        ];
+
+      heart.style.left =
+        Math.random() * 100 + "vw";
+
+      heart.style.fontSize =
+        15 + Math.random() * 25 + "px";
+
+      heart.style.animationDuration =
+        3 + Math.random() * 4 + "s";
+
+      heart.style.animationDelay =
+        Math.random() * 0.5 + "s";
+
+      document.body.appendChild(heart);
+
+      setTimeout(() => {
+        heart.remove();
+      }, 8000);
+    }
+  }
+
+
+  /* ==========================
+     BACKGROUND HEARTS
+  ========================== */
+
+  setInterval(() => {
+    createHearts(1);
+  }, 1400);
+
+</script>
+
+</body>
+</html>
